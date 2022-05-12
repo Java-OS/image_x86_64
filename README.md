@@ -1,7 +1,7 @@
 ## Build JOS 
 
 
-**Kernel**
+**Kernel**    
 Download [Linux Kernel](https://kernel.org/) inside source/kernel/ directory then compile with this parameters :    
 
 	make tinyconfig 
@@ -18,5 +18,5 @@ Only enable
 	* Block devices
 
 
-**JRE** 
+**JRE**     
 	jlink --add-modules java.base --output jre
