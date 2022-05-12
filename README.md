@@ -18,5 +18,5 @@ Only enable
 	* Block devices
 
 
-**JRE**     
+**JRE**        
 	jlink --add-modules java.base --output jre
