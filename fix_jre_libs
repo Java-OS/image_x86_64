@@ -1,0 +1,27 @@
+#!/bin/bash
+
+LIBS=$(find jre/ -type f -exec file {} \; | grep ELF | awk -F ":" '{print $1}')
+
+
+for I in ${LIBS[@]} 
+do
+	DEPS=$(ldd $I | grep "=>" | grep -v not | awk '{print $3}' | grep -v $USER) 
+	for J in ${DEPS[@]} 
+	do 
+		DIR=$(dirname $J) 
+		FNAME=$(basename $J) 
+
+		mkdir -p stage1/$DIR/ 2> /dev/null
+		cp $J stage1/$DIR/
+
+	done
+done
+
+mkdir stage1/lib64 2> /dev/null
+cp /lib64/ld-linux-x86-64.so.2 stage1/lib64
+
+cp stage1/jre/lib/libjli.so stage1/lib/ 
+
+
+
+

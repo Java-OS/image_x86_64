@@ -1,0 +1,26 @@
+#!/bin/bash 
+
+echo "[*] Initialize "
+rm -rf image stage1 2> /dev/null 
+mkdir -p image/boot/ stage1 2> /dev/null  
+
+echo "[*] Copy files"
+cp source/kernel/linux-5.17.6/arch/x86_64/boot/bzImage			image/boot/vmlinuz 
+cp /usr/lib/ISOLINUX/isolinux.bin					image/boot/ 
+cp isolinux.cfg								image/
+cp /usr/lib/syslinux/modules/bios/ldlinux.c32				image/
+
+cp source/init/target/x86_64-unknown-linux-musl/release/init		stage1/init  
+
+echo "[*] Copy jre and jos-engine" 
+cp -aRf jre								stage1/ 
+cp /home/mah454/Programming/Java/jos-engine/target/jos-engine.jar	stage1/
+
+echo "[*] Fix jre dependencies" 
+./fix_jre_libs 
+
+echo "[*] Create stage1"
+(cd stage1 ; find . | cpio -o -H newc | gzip -9c > ../image/boot/stage1.gz) 2> /dev/null 
+
+echo "[*] Create iso" 
+(cd image ; mkisofs -o ../jos.iso -b boot/isolinux.bin -c boot/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -R -V "JOS" .) 2> /dev/null
