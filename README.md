@@ -1,9 +1,11 @@
 ## Build JOS 
 
-Download [Linux Kernel](https://kernel.org/) inside source/kernel/ then compile with this parameters : 
 
-make tinyconfig 
-make menuconfig 
+** Kernel **
+Download [Linux Kernel](https://kernel.org/) inside source/kernel/ directory then compile with this parameters : 
+
+	make tinyconfig 
+	make menuconfig 
 
 Only enable 
 * 66-bit kernel 
@@ -16,4 +18,5 @@ Only enable
 	* Block devices
 
 
-
+** JRE ** 
+	jlink --add-modules java.base --output jre
