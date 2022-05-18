@@ -1,0 +1,15 @@
+#!/bin/bash 
+
+
+IMAGES_EXISTS=$(docker images | grep -i empty)
+
+if [[ -z $IMAGES_EXISTS ]] ; then 
+	tar -cf empty.tar -T /dev/null 
+	docker build . -t empty.tar 
+fi 
+
+docker build . -t jos:latest
+
+if [ -f empty.tar ] ; then 
+	rm empty.tar 
+fi
