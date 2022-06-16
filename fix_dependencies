@@ -1,0 +1,42 @@
+#!/bin/bash
+
+LIBS=$(find jre/ -type f -exec file {} \; | grep ELF | awk -F ":" '{print $1}')
+
+function copy_deps() {
+	DEPS=$(ldd $1 2> /dev/null | grep "=>" | grep -v not | awk '{print $3}' | grep -v $USER) 
+	for I in ${DEPS[@]} 
+	do 
+		DIR=$(dirname $I) 
+		FNAME=$(basename $I) 
+	
+		mkdir -p stage1/$DIR/ 2> /dev/null
+		cp $I stage1/$DIR/
+	
+	done
+}
+
+function add() {
+	DIR=$(dirname $1) 
+	FNAME=$(basename $1) 
+	mkdir -p stage1/$DIR  
+	cp $1 stage1/$DIR/$FNAME 
+	copy_deps $1
+}
+
+for I in ${LIBS[@]} 
+do
+	copy_deps $I
+done
+
+mkdir -p stage1/lib64 stage1/usr/lib/x86_64-linux-gnu/ 2> /dev/null
+cp /lib64/ld-linux-x86-64.so.2 stage1/lib64
+cp /usr/lib/x86_64-linux-gnu/libutil.so.1 stage1/usr/lib/x86_64-linux-gnu/
+cp stage1/jre/lib/libjli.so stage1/lib/ 
+
+
+add /usr/bin/stty 
+add /usr/bin/tty 
+add /usr/bin/infocmp 
+add /usr/lib/terminfo/x/xterm-256color 
+# add /lib/terminfo/l/linux 
+# add /usr/bin/busybox

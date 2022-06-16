@@ -2,9 +2,14 @@
 
 JOS_PROJECT_DIR="$HOME/JOS_Project"
 
+sudo umount stage1/dev 2> /dev/null 
+sudo umount stage1/proc 2> /dev/null
+
 echo "[*] Initialize "
-rm -rf image stage1 2> /dev/null 
+sudo rm -rf image stage1 2> /dev/null 
 mkdir -p image/boot/ stage1 2> /dev/null  
+mkdir -p stage1/modules/{available,enabled}
+mkdir -p stage1/tmp stage1/proc stage1/dev stage1/etc
 
 echo "[*] Copy files"
 cp $JOS_PROJECT_DIR/kernel/linux-5.17.6/arch/x86_64/boot/bzImage	image/boot/vmlinuz 
@@ -15,10 +20,13 @@ cp $JOS_PROJECT_DIR/init/target/x86_64-unknown-linux-musl/release/init	stage1/in
 
 echo "[*] Copy jre and jos-engine" 
 cp -aRf jre								stage1/ 
-cp $JOS_PROJECT_DIR/jos-engine/target/jos-engine.jar			stage1/
+cp -aRf $JOS_PROJECT_DIR/jos-engine/jos-core/target/lib/		stage1/engine/
+cp -aRf $JOS_PROJECT_DIR/jos-engine/etc/*				stage1/etc/
 
-echo "[*] Fix jre dependencies" 
-./fix_jre_libs 
+echo "[*] Fix dependencies" 
+./fix_dependencies
+
+sudo chown root:root -R stage1 
 
 echo "[*] Create stage1"
 (cd stage1 ; find . | cpio -o -H newc | gzip -9c > ../image/boot/stage1.gz) 2> /dev/null 
