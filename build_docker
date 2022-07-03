@@ -11,7 +11,7 @@ if [[ -z $IMAGES_EXISTS ]] ; then
 	docker build . -t empty.tar 
 fi 
 
-docker build . -t jos:latest
+docker build . -t mah454/jos:latest
 
 if [ -f empty.tar ] ; then 
 	rm empty.tar 

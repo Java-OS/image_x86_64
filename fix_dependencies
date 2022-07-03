@@ -38,5 +38,4 @@ add /usr/bin/stty
 add /usr/bin/tty 
 add /usr/bin/infocmp 
 add /usr/lib/terminfo/x/xterm-256color 
-# add /lib/terminfo/l/linux 
-# add /usr/bin/busybox
+add /lib/terminfo/l/linux 
