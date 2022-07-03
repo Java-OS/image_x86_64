@@ -22,10 +22,10 @@ jdk.jsobject
 jdk.naming.dns
 jdk.naming.rmi
 jdk.net
-jdk.nio.mapmode
-jdk.random
 jdk.sctp
 jdk.security.auth
 jdk.security.jgss
 jdk.xml.dom
 jdk.zipfs
+jdk.nio.mapmode
+jdk.random
