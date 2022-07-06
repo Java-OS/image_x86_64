@@ -39,3 +39,7 @@ add /usr/bin/tty
 add /usr/bin/infocmp 
 add /usr/lib/terminfo/x/xterm-256color 
 add /lib/terminfo/l/linux 
+add /lib/x86_64-linux-gnu/libstdc++.so.6 
+add /lib/x86_64-linux-gnu/libgcc_s.so.1 
+add /lib/x86_64-linux-gnu/libm.so.6 
+add /lib/x86_64-linux-gnu/libc.so.6 
