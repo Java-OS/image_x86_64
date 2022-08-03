@@ -5,5 +5,4 @@ rm -rf jre 2> /dev/null
 MODULES=$(cat JAVA_MODULE_LIST | tr "\n" ",")
 
 
-
-jlink --add-modules ${MODULES} --output jre
+jlink --no-header-files --no-man-pages --output jre --add-modules ${MODULES}

@@ -29,3 +29,4 @@ jdk.xml.dom
 jdk.zipfs
 jdk.nio.mapmode
 jdk.random
+jdk.jdwp.agent

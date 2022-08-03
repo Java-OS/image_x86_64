@@ -33,7 +33,6 @@ cp /lib64/ld-linux-x86-64.so.2 stage1/lib64
 cp /usr/lib/x86_64-linux-gnu/libutil.so.1 stage1/usr/lib/x86_64-linux-gnu/
 cp stage1/jre/lib/libjli.so stage1/lib/ 
 
-
 add /usr/bin/stty 
 add /usr/bin/tty 
 add /usr/bin/infocmp 
