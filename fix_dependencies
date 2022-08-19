@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ $USER != 'root' ] ; then 
+	echo "Run as sudo" 
+	exit 1
+fi
+
 LIBS=$(find jre/ -type f -exec file {} \; | grep ELF | awk -F ":" '{print $1}')
 
 function copy_deps() {
@@ -19,7 +24,11 @@ function add() {
 	DIR=$(dirname $1) 
 	FNAME=$(basename $1) 
 	mkdir -p stage1/$DIR  
-	cp $1 stage1/$DIR/$FNAME 
+	if [ -z $2 ] ; then 
+		cp $1 stage1/$DIR/$FNAME 
+	else
+		cp $1 stage1/$2
+	fi
 	copy_deps $1
 }
 
@@ -42,3 +51,4 @@ add /lib/x86_64-linux-gnu/libstdc++.so.6
 add /lib/x86_64-linux-gnu/libgcc_s.so.1 
 add /lib/x86_64-linux-gnu/libm.so.6 
 add /lib/x86_64-linux-gnu/libc.so.6 
+add /usr/sbin/v86d /sbin/
