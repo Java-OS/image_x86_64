@@ -5,3 +5,5 @@ stage1/
 jre/ 
 empty.tar
 disk.img
+disk.vmdk
+busybox.tar
