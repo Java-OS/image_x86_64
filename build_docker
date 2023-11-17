@@ -7,8 +7,9 @@ sudo umount ./stage1/dev  2> /dev/null
 sudo umount ./stage1/proc 2> /dev/null
 
 if [[ -z $IMAGES_EXISTS ]] ; then 
+  echo "Create empty docker image"
 	tar -cf empty.tar -T /dev/null 
-	docker build . -t empty.tar 
+	docker import empty.tar empty:latest
 fi 
 
 docker build . -t mah454/jos:latest
