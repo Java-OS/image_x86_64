@@ -6,7 +6,7 @@ FILE_NAME="disk.img"
 
 echo "[*] Activate qemu nbd"
 sudo modprobe nbd 
-qemu-img create -f qcow2 disk.img 256M > /dev/null
+qemu-img create -f qcow2 disk.img 300M > /dev/null
 # qemu-img create -f qcow2 $FILE_NAME 256M > /dev/null
 sudo qemu-nbd -c /dev/nbd0 $FILE_NAME
 
