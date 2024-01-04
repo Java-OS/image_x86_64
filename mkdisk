@@ -4,37 +4,47 @@
 
 FILE_NAME="disk.img"
 
-echo "[*] Activate qemu nbd"
-sudo modprobe nbd 
-qemu-img create -f qcow2 disk.img 700M > /dev/null
+echo "[*] Generate and partition disk"
+# qemu-img create -f qcow2 disk.img 700M > /dev/null
 # qemu-img create -f qcow2 $FILE_NAME 256M > /dev/null
-sudo qemu-nbd -c /dev/nbd0 $FILE_NAME
+dd if=/dev/zero of=disk.img bs=1M count=700 2> /dev/null
+# qemu-nbd -c /dev/nbd0 $FILE_NAME
 
 echo "[*] Partition disk and format ext4" 
 (
-echo o 
+echo g 
 echo n
-echo p 
+echo
+echo
+echo +200M 
+echo t
 echo 1
+echo n
+echo 
 echo 
 echo 
 echo w
-) | sudo fdisk /dev/nbd0 > /dev/null 2>&1
+) | fdisk disk.img > /dev/null 2>&1
 
-sudo mkfs.ext4 /dev/nbd0p1 > /dev/null 2>&1
+kpartx -a disk.img
+
+mkfs.fat -F 32 /dev/mapper/loop0p1 > /dev/null 2>&1
+mkfs.ext4      /dev/mapper/loop0p2 > /dev/null 2>&1
 
 echo "[*] Mount filesystems" 
-sudo mount /dev/nbd0p1 /mnt/
+mount /dev/mapper/loop0p2 /mnt/
+mkdir -p /mnt/boot/efi 
+mount /dev/mapper/loop0p1 /mnt/boot/efi
 
 echo "[*] Copy rootfs" 
-sudo cp -aRf stage1/* /mnt/
-sudo mkdir /mnt/boot
-sudo cp image/boot/vmlinuz /mnt/boot/ 
+cp -aRf stage1/* /mnt/
+cp image/boot/vmlinuz /mnt/boot/ 
 
 echo "[*] Install grub"
-sudo grub-install --root-directory /mnt/ /dev/nbd0 > /dev/null 2>&1
-sudo cp grub.cfg /mnt/boot/grub/
+grub-install --root-directory /mnt/ --target=x86_64-efi /dev/loop0 > /dev/null 2>&1
+cp grub.cfg /mnt/boot/grub/
 
-echo "[*] Disconnect nbd" 
-sudo umount /mnt 
-sudo qemu-nbd -d /dev/nbd0 > /dev/null
+echo "[*] Disconnect partitions" 
+umount /mnt/boot/efi
+umount /mnt 
+kpartx -d /dev/loop0
