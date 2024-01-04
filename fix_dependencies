@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ $USER != 'root' ] ; then 
-	echo "Run as sudo" 
-	exit 1
-fi
-
 LIBS=$(find jre/ -type f -exec file {} \; | grep ELF | awk -F ":" '{print $1}')
 
 function copy_deps() {
@@ -16,7 +11,6 @@ function copy_deps() {
 	
 		mkdir -p stage1/$DIR/ 2> /dev/null
 		cp $I stage1/$DIR/
-	
 	done
 }
 

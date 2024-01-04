@@ -1,8 +1,6 @@
 com.oracle.graal.graal_enterprise
-com.oracle.svm_enterprise.ml_dataset
-com.oracle.truffle.regex
-com.oracle.truffle.truffle_nfi
-com.oracle.truffle.truffle_nfi_libffi
+com.oracle.svm.enterprise.truffle
+com.oracle.svm.extraimage_enterprise
 java.base
 java.compiler
 java.datatransfer
@@ -35,7 +33,6 @@ jdk.dynalink
 jdk.editpad
 jdk.hotspot.agent
 jdk.httpserver
-jdk.incubator.foreign
 jdk.incubator.vector
 jdk.internal.ed
 jdk.internal.jvmstat
@@ -44,7 +41,6 @@ jdk.internal.opt
 jdk.internal.vm.ci
 jdk.internal.vm.compiler
 jdk.internal.vm.compiler.management
-jdk.internal.vm.compiler.truffle.jfr
 jdk.jartool
 jdk.javadoc
 jdk.jcmd
@@ -74,8 +70,8 @@ jdk.unsupported
 jdk.unsupported.desktop
 jdk.xml.dom
 jdk.zipfs
-org.graalvm.locator
-org.graalvm.nativeimage.junitsupport
-org.graalvm.nativeimage.llvm
-org.graalvm.sdk
-org.graalvm.truffle
+org.graalvm.collections
+org.graalvm.extraimage.builder
+org.graalvm.nativeimage
+org.graalvm.truffle.compiler
+org.graalvm.word

@@ -2,6 +2,11 @@
 
 . ./init-script 
 
+echo "[*] Copy boot loader files"
+cp /usr/lib/ISOLINUX/isolinux.bin                                       image/boot/
+cp isolinux.cfg                                                         image/
+cp /usr/lib/syslinux/modules/bios/ldlinux.c32                           image/
+
 echo "[*] Create stage1"
 (cd stage1 ; find . | cpio -o -H newc | gzip -9c > ../image/boot/stage1.gz) 2> /dev/null 
 
